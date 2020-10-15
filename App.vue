@@ -27,12 +27,12 @@
 </style>
 
 <script>
-import { checkStatus, sendStatus } from "./firebase/commands";
+import { checkStatus, sendStatus, WAIT } from "./firebase/commands";
 
 export default {
   data() {
     return {
-      commandTab: ["wait"],
+      commandTab: [WAIT],
     };
   },
   mounted: async function(){

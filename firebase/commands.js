@@ -1,54 +1,55 @@
 import { firebase } from './config.js'
 
+const DOINGLONG = "doing long coffee";
+const DOINGSHORT = "doing short coffee";
+const SHORT = "short";
+const LONG = "long";
+const WAIT = "wait";
+
 async function checkStatus(status) {
     //Search all the messages not from the user
-    firebase.firestore().collection('status').orderBy("timestamp", "desc").limit(1).onSnapshot(async function (result) {;
-        try{
-            var timestamp = Date.now();
-            var now = Date.now();
-            
-            //Check if there is changes
-            result.docChanges().forEach(function (doc) {
-                //If the message is added
-                if (doc.type == 'added') {
-                    status.length = 0;
-                    status.push(doc.doc.data().status);
-                    timestamp = doc.doc.data().timestamp;
-                }
-            });
-
-            //Manage if the machine stop working during making the coffee
-            if(status != "wait" && now > timestamp+60000){
-                sendStatus("wait");
+    firebase.firestore().collection('status').orderBy("timestamp", "desc").limit(1).onSnapshot(async function (result) {
+        var timestamp = Date.now();
+        var now = Date.now();
+        
+        //Check if there is changes
+        result.docChanges().forEach(function (doc) {
+            //If the message is added
+            if (doc.type == 'added') {
                 status.length = 0;
-                status.push("wait");
+                status.push(doc.doc.data().status);
+                timestamp = doc.doc.data().timestamp;
             }
+        });
 
-            if(status == "short"){
-                console.log("doing short coffee");
-                sendStatus("doing short coffee");
-                status.length = 0;
-                status.push("doing short coffee");
-                setTimeout(function () { 
-                    sendStatus("wait"); 
-                    status.length = 0;
-                    status.push("wait");
-                }, 5000);
-                
-            } else if(status == "long"){
-                console.log("doing long coffee");
-                sendStatus("doing long coffee");
-                status.length = 0;
-                status.push("doing long coffee");
-                setTimeout(function () { 
-                    sendStatus("wait"); 
-                    status.length = 0;
-                    status.push("wait");
-                }, 10000);
-            }
+        //Manage if the machine stop working during making the coffee
+        if(status != WAIT && now > timestamp+60000){
+            sendStatus(WAIT);
+            status.length = 0;
+            status.push(WAIT);
         }
-        catch(e){
-            sendStatus("wait");
+
+        if(status == SHORT){
+            console.log(DOINGSHORT);
+            sendStatus(DOINGSHORT);
+            status.length = 0;
+            status.push(DOINGSHORT);
+            setTimeout(function () { 
+                sendStatus(WAIT); 
+                status.length = 0;
+                status.push(WAIT);
+            }, 5000);
+            
+        } else if(status == LONG){
+            console.log(DOINGLONG);
+            sendStatus(DOINGLONG);
+            status.length = 0;
+            status.push(DOINGLONG);
+            setTimeout(function () { 
+                sendStatus(WAIT); 
+                status.length = 0;
+                status.push(WAIT);
+            }, 10000);
         }
     });
     return status;
@@ -76,4 +77,4 @@ async function sendStatus(status) {
     }
 }
 
-export { checkStatus, sendStatus };
+export { checkStatus, sendStatus, WAIT };
