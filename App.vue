@@ -4,7 +4,7 @@
       <text class="title">Coffee machine</text>
     </view>
     <view class="body">
-      <text class="">Machine state : {{commandTab[0]}}</text>
+      <text class="text">Machine state : {{commandTab[0]}}</text>
     </view>
   </safe-area-view>
 </template>
@@ -24,6 +24,10 @@
   justify-content: center;
   flex: 1;
 }
+.text {
+  font-size : 25;
+}
+
 </style>
 
 <script>
