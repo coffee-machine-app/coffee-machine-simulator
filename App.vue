@@ -9,6 +9,22 @@
   </safe-area-view>
 </template>
 
+<script>
+import { checkStatus, sendStatus, WAIT } from "./firebase/commands";
+
+export default {
+  data() {
+    return {
+      commandTab: [WAIT],
+    };
+  },
+  mounted: async function(){
+    let that = this;
+    that.commandTab = await checkStatus(that.commandTab);
+  },
+};
+</script>
+
 <style>
 .container {
   flex: 1;
@@ -27,21 +43,4 @@
 .text {
   font-size : 25;
 }
-
 </style>
-
-<script>
-import { checkStatus, sendStatus, WAIT } from "./firebase/commands";
-
-export default {
-  data() {
-    return {
-      commandTab: [WAIT],
-    };
-  },
-  mounted: async function(){
-    let that = this;
-    that.commandTab = await checkStatus(that.commandTab);
-  },
-};
-</script>
