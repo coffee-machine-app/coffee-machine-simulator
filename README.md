@@ -37,7 +37,8 @@ var firebaseConfig = {
 ```
 
 For more details : https://firebase.google.com/docs/web/setup#node.js-apps <br>
-Also, you need to create a collection "status" on your cloud firestore.
+Also, you need to create a collection "status" on your cloud firestore. <br>
+Don't forget to allow writing in the firestore rules.
 
 * To run this project, install it locally using npm:
 
