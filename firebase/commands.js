@@ -1,7 +1,7 @@
 import { firebase } from './config.js'
 
-const DOINGLONG = "doing long coffee";
-const DOINGSHORT = "doing short coffee";
+const MAKINGLONG = "making long coffee";
+const MAKINGSHORT = "making short coffee";
 const SHORT = "short";
 const LONG = "long";
 const WAIT = "wait";
@@ -30,10 +30,10 @@ async function checkStatus(status) {
         }
 
         if (status == SHORT) {
-            console.log(DOINGSHORT);
-            sendStatus(DOINGSHORT);
+            console.log(MAKINGSHORT);
+            sendStatus(MAKINGSHORT);
             status.length = 0;
-            status.push(DOINGSHORT);
+            status.push(MAKINGSHORT);
             setTimeout(function () {
                 sendStatus(WAIT);
                 status.length = 0;
@@ -41,10 +41,10 @@ async function checkStatus(status) {
             }, 5000);
 
         } else if (status == LONG) {
-            console.log(DOINGLONG);
-            sendStatus(DOINGLONG);
+            console.log(MAKINGLONG);
+            sendStatus(MAKINGLONG);
             status.length = 0;
-            status.push(DOINGLONG);
+            status.push(MAKINGLONG);
             setTimeout(function () {
                 sendStatus(WAIT);
                 status.length = 0;
