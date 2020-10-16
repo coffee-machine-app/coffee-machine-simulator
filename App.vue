@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { checkStatus, sendStatus, WAIT } from "./firebase/commands";
+import { checkStatus, sendStatus, WAITING } from "./firebase/commands";
 
 export default {
   data() {
     return {
-      commandTab: [WAIT],
+      commandTab: [WAITING],
     };
   },
   mounted: async function(){

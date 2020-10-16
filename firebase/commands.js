@@ -5,7 +5,7 @@ const MAKINGLONG = "making long coffee";
 const MAKINGSHORT = "making short coffee";
 const SHORT = "short";
 const LONG = "long";
-const WAIT = "wait";
+const WAITING = "waiting";
 
 //Manage the changes of the database
 async function checkStatus(status) {
@@ -27,9 +27,9 @@ async function checkStatus(status) {
 
         //Manage the launch of the machine
         if (initBool) {
-            sendStatus(WAIT);
+            sendStatus(WAITING);
             status.length = 0;
-            status.push(WAIT);
+            status.push(WAITING);
             initBool = false;
         }
 
@@ -41,9 +41,9 @@ async function checkStatus(status) {
             status.push(MAKINGSHORT);
             //Wait for 5 seconds the coffee to be made
             setTimeout(function () {
-                sendStatus(WAIT);
+                sendStatus(WAITING);
                 status.length = 0;
-                status.push(WAIT);
+                status.push(WAITING);
             }, 5000);
         }
         //If the coffee order is a long one 
@@ -54,9 +54,9 @@ async function checkStatus(status) {
             status.push(MAKINGLONG);
             //Wait for 10 seconds the coffee to be made
             setTimeout(function () {
-                sendStatus(WAIT);
+                sendStatus(WAITING);
                 status.length = 0;
-                status.push(WAIT);
+                status.push(WAITING);
             }, 10000);
         }
     });
@@ -85,4 +85,4 @@ async function sendStatus(status) {
     }
 }
 
-export { checkStatus, sendStatus, WAIT };
+export { checkStatus, sendStatus, WAITING };
