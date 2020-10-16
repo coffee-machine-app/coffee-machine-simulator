@@ -7,6 +7,7 @@ const LONG = "long";
 const WAIT = "wait";
 
 async function checkStatus(status) {
+    var initBool = true;
     //Search all the messages not from the user
     firebase.firestore().collection('status').orderBy("timestamp", "desc").limit(1).onSnapshot(async function (result) {
         var timestamp = Date.now();
@@ -22,11 +23,12 @@ async function checkStatus(status) {
             }
         });
 
-        //Manage if the machine stop working during making the coffee
-        if (status != WAIT && now > timestamp + 60000) {
+        //Manage the launch of the machine
+        if (initBool) {
             sendStatus(WAIT);
             status.length = 0;
             status.push(WAIT);
+            initBool = false;
         }
 
         if (status == SHORT) {
