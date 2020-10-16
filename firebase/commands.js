@@ -1,21 +1,23 @@
 import { firebase } from './config.js'
 
+//Status contants 
 const MAKINGLONG = "making long coffee";
 const MAKINGSHORT = "making short coffee";
 const SHORT = "short";
 const LONG = "long";
 const WAIT = "wait";
 
+//Manage the changes of the database
 async function checkStatus(status) {
     var initBool = true;
-    //Search all the messages not from the user
+    //Get the last status saved in the database 
     firebase.firestore().collection('status').orderBy("timestamp", "desc").limit(1).onSnapshot(async function (result) {
         var timestamp = Date.now();
         var now = Date.now();
 
         //Check if there is changes
         result.docChanges().forEach(function (doc) {
-            //If the message is added
+            //If the document is added
             if (doc.type == 'added') {
                 status.length = 0;
                 status.push(doc.doc.data().status);
@@ -31,22 +33,26 @@ async function checkStatus(status) {
             initBool = false;
         }
 
+        //If the coffee order is a short one
         if (status == SHORT) {
             console.log(MAKINGSHORT);
             sendStatus(MAKINGSHORT);
             status.length = 0;
             status.push(MAKINGSHORT);
+            //Wait for 5 seconds the coffee to be made
             setTimeout(function () {
                 sendStatus(WAIT);
                 status.length = 0;
                 status.push(WAIT);
             }, 5000);
-
-        } else if (status == LONG) {
+        }
+        //If the coffee order is a long one 
+        else if (status == LONG) {
             console.log(MAKINGLONG);
             sendStatus(MAKINGLONG);
             status.length = 0;
             status.push(MAKINGLONG);
+            //Wait for 10 seconds the coffee to be made
             setTimeout(function () {
                 sendStatus(WAIT);
                 status.length = 0;
